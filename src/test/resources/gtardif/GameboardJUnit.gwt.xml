@@ -4,6 +4,6 @@
   <inherits name='gtardif.Gameboard'/>
 
   <!-- Specify the path to any remote services.                   -->
-  <servlet path="/Gameboard/greet" class="gtardif.server.GreetingServiceImpl" />
+  <servlet path="/Gameboard/login" class="gtardif.server.LoginServiceImpl" />
 
 </module>

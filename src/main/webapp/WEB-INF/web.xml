@@ -7,13 +7,13 @@
 
   <!-- Servlets -->
   <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>gtardif.server.GreetingServiceImpl</servlet-class>
+    <servlet-name>loginServlet</servlet-name>
+    <servlet-class>gtardif.server.LoginServiceImpl</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/Gameboard/greet</url-pattern>
+    <servlet-name>loginServlet</servlet-name>
+    <url-pattern>/Gameboard/login</url-pattern>
   </servlet-mapping>
 
   <!-- Default page to serve -->
