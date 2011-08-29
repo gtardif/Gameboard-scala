@@ -4,8 +4,10 @@
 *.patch
 *.releaseBackup
 *~
+.project
+.classpath
 .scala_dependencies
 bin/
 /*/logs
 target/
-project/
+project/boot
