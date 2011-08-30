@@ -8,6 +8,7 @@ class P4Board(val columns: List[List[Side]], val player: Side)  {
 
   def play(side: Side, columnIndex: Int) = {
     require(side == player, "It is not your turn to play," + side)
+    require(columnIndex <= 7, "impossible to play column " + columnIndex)
     require(columns(columnIndex).size < 6, "impossible to add pawn in column " + columnIndex)
 
     new P4Board((columns zipWithIndex) map (colWithIndex => if (colWithIndex._2 == columnIndex) colWithIndex._1 ::: List(side) else colWithIndex._1), other(player))

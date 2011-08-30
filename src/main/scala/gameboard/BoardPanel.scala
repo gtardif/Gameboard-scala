@@ -11,6 +11,8 @@ class BoardPanel  (var board :P4Board, val player : HumanPlayer) extends Compone
   private val yellowPawn = ImageIO.read(new File("src/main/resources/peach.png"))      
   private val boardImage = ImageIO.read(new File("src/main/resources/concert-prince.png"))
   
+  private var game : P4Game = null
+  
   override def paintComponent(g:Graphics2D) = { 
     g.drawImage(boardImage, 0, 0, null) 
     (board.columns zipWithIndex) foreach(paintColumn(g, _))
@@ -27,7 +29,8 @@ class BoardPanel  (var board :P4Board, val player : HumanPlayer) extends Compone
     g.drawImage(image, columnIndex * image.getWidth(), (6-rawIndex -1) * image.getHeight(), null)
   }
    
-  def updateBoard(newBoard : P4Board) {
+  def updateBoard(newBoard : P4Board, game:P4Game) {
+    this.game = game
     board = newBoard
     this.repaint()
   }
@@ -36,7 +39,7 @@ class BoardPanel  (var board :P4Board, val player : HumanPlayer) extends Compone
   
   reactions += {
     case MouseClicked(source, point, modifiers, clicks, triggersPopup) => {
-      player.play((point.getX() / redPawn.getWidth()).toInt)
+      game.play((point.getX() / redPawn.getWidth()).toInt, player)
     }
   }
   

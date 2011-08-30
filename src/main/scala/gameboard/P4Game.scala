@@ -11,6 +11,11 @@ class P4Game(val players: List[Player]) extends Actor {
     players.foreach(_ ! (board, this))
     this
   }
+  
+  def play(column : Int, player : Player) {
+    this!(column, player)
+  }
+
 
   def act() {
     receive {
@@ -29,7 +34,7 @@ class P4Game(val players: List[Player]) extends Actor {
 }
 object P4Game extends Application {
   val player1 = new HumanPlayer(Side.RED)
-  val player2 = new HumanPlayer(Side.YELLOW)
+  val player2 = new P4Bot(Side.YELLOW)
   val game = new P4Game(List(player1, player2))
 
   game.start()
