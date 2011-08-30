@@ -4,6 +4,7 @@
 *.patch
 *.releaseBackup
 *~
+.DS_Store
 .project
 .classpath
 .scala_dependencies
