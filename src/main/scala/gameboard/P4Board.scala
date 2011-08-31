@@ -16,7 +16,8 @@ class P4Board(val columns: List[List[Side]], val player: Side)  {
 }
 
 object P4Board {
-  val empty = new P4Board(List.fill(7)(List.empty), Side.RED)
+  val emptyColumns = List.fill(7)(List.empty)
+  val empty = new P4Board(emptyColumns, Side.RED)
   
   def newGame(side : Side)  = {
     new P4Board(List.fill(7)(List.empty), side)
