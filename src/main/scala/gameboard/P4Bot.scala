@@ -3,10 +3,6 @@ package gameboard
 import Side._
 
 class P4Bot(val side: Side.Side) extends Player {
-  private val you = other(side)
-  private val me = side
-  private val four : ((=> Some[Side.Side]) => List[Some[Side.Side]]) = List.fill(4) _
-
   def updateBoard(board: P4Board, game: P4Game) {
     if (board.player != side) {
       return
@@ -27,18 +23,33 @@ class P4Bot(val side: Side.Side) extends Player {
   }
 
   private def score(index: Int, board: P4Board): Int = {
+    val myScore = score(index, board.columns, side)
+    val otherScore = score(index, board.columns, other(side))
+
+    return myScore + otherScore
+  }
+
+  private def score(index: Int, columns: List[List[Side.Side]], side: Side): Int = {
+    val board = new P4Board(columns, side)
     if (board.columns(index).size == 6) return -1
 
-    val nextcolumns = board.play(side, index).columns
-    val column = nextcolumns(index)
+    val nextColumns = board.play(board.player, index).columns
+    val column = nextColumns(index)
 
-    column.reverse match {
-      case (this.me :: this.me :: this.me :: this.me :: _) => 6
-      case (this.me :: this.you :: this.you :: this.you :: _) => 5
+    val you = other(board.player)
+    val columnScore = column.reverse match {
+      case (board.player :: board.player :: board.player :: board.player :: _) => 6
       case (column) if column.size > 6 => -1
       case (_) => 0
     }
 
+    val height = column.size - 1
+    val neighbourColumns = if (index > 3) nextColumns.drop(index - 3) else nextColumns.dropRight(column.size - 1 - index - 3)
+    val rawLine = neighbourColumns map { column => if (column.size > height) Some(column(height)) else Some() }
+
+    val rawScore = if (rawLine.containsSlice(List.fill(4)(Some(board.player)))) 6 else 0
+
+    return columnScore + rawScore
   }
 
   def newMessage(message: String) {

@@ -31,27 +31,31 @@ class P4BotTest extends SpecificationWithJUnit with Mockito {
     }
 
     "never play full column" in {
-      val board = new P4Board(List(List(), List(),List(), List(RED, YELLOW, RED, YELLOW, RED, YELLOW), List(), List(), List()), RED)
-      
-      bot.updateBoard(board, mockGame)
-      
+      bot.updateBoard(new P4Board(List(List(), List(), List(), List(RED, YELLOW, RED, YELLOW, RED, YELLOW), List(), List(), List()), RED), mockGame)
+
       there was one(mockGame).play(0, bot)
     }
 
     "block columns where opponent can win" in {
-      val board = new P4Board(List(List(), List(),List(), List(RED, RED), List(RED, YELLOW, YELLOW, YELLOW), List(), List()), RED)
-      
-      bot.updateBoard(board, mockGame)
-      
+      bot.updateBoard(new P4Board(List(List(), List(), List(), List(RED, RED), List(RED, YELLOW, YELLOW, YELLOW), List(), List()), RED), mockGame)
+
       there was one(mockGame).play(4, bot)
     }
 
-    "win if possible in any case" in {
-      val board = new P4Board(List(List(), List(RED, RED, RED), List(),List(YELLOW, YELLOW, YELLOW), List(), List(), List()), RED)
-      
-      bot.updateBoard(board, mockGame)
-      
+    "win on column if possible in any case" in {
+      bot.updateBoard(new P4Board(List(List(), List(RED, RED, RED), List(), List(YELLOW, YELLOW, YELLOW), List(), List(), List()), RED), mockGame)
+
       there was one(mockGame).play(1, bot)
+    }
+
+    "block raws where opponent can win" in {
+      bot.updateBoard(new P4Board(List(List(RED, RED), List(), List(), List(YELLOW), List(YELLOW), List(YELLOW), List(RED)), RED), mockGame)
+
+      there was one(mockGame).play(2, bot)
+
+      bot.updateBoard(new P4Board(List(List(RED, RED), List(YELLOW), List(YELLOW), List(), List(YELLOW), List(YELLOW), List()), RED), mockGame)
+
+      there was one(mockGame).play(3, bot)
     }
   }
 }
