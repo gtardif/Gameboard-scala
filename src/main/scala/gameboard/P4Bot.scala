@@ -35,7 +35,7 @@ class P4Bot(val side: Side.Side) extends Player {
     column.reverse match {
       case (this.me :: this.me :: this.me :: this.me :: _) => 6
       case (this.me :: this.you :: this.you :: this.you :: _) => 5
-      case (column) if column.size == 6 => -1
+      case (column) if column.size > 6 => -1
       case (_) => 0
     }
 
