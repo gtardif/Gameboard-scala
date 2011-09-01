@@ -26,7 +26,7 @@ class P4Bot(val side: Side.Side) extends Player {
     val myScore = score(index, board.columns, side)
     val otherScore = score(index, board.columns, other(side))
 
-    return myScore + otherScore
+    return 2*myScore + otherScore
   }
 
   private def score(index: Int, columns: List[List[Side.Side]], side: Side): Int = {
@@ -52,7 +52,7 @@ class P4Bot(val side: Side.Side) extends Player {
   }
   
   private def score(columnLine: List[Some[Any]], side: gameboard.Side.Side): Int = {
-    if (columnLine.containsSlice(List.fill(4)(Some(side)))) 6 else 
+    if (columnLine.containsSlice(List.fill(4)(Some(side)))) 10 else 
       if (columnLine.containsSlice(List.fill(3)(Some(side)))) 4 else 0
   }
 }

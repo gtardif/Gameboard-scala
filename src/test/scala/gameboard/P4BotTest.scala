@@ -43,9 +43,9 @@ class P4BotTest extends SpecificationWithJUnit with Mockito {
     }
 
     "win on column if possible in any case" in {
-      bot.updateBoard(new P4Board(List(List(), List(RED, RED, RED), List(), List(YELLOW, YELLOW, YELLOW), List(), List(), List()), RED), mockGame)
+      bot.updateBoard(new P4Board(List(List(), List(YELLOW, YELLOW, YELLOW), List(), List(RED, RED, RED), List(), List(), List()), RED), mockGame)
 
-      there was one(mockGame).play(1, bot)
+      there was one(mockGame).play(3, bot)
     }
 
     "block raws where opponent can win" in {
@@ -56,6 +56,12 @@ class P4BotTest extends SpecificationWithJUnit with Mockito {
       bot.updateBoard(new P4Board(List(List(RED, RED), List(YELLOW), List(YELLOW), List(), List(YELLOW), List(YELLOW), List()), RED), mockGame)
 
       there was one(mockGame).play(3, bot)
+    }
+
+    "win on raw if possible in any case" in {
+      bot.updateBoard(new P4Board(List(List(YELLOW), List(YELLOW, YELLOW), List(YELLOW, YELLOW), List(YELLOW, RED), List(RED), List(RED), List()), RED), mockGame)
+
+      there was one(mockGame).play(6, bot)
     }
   }
 }
