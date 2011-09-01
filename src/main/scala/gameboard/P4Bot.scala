@@ -34,25 +34,25 @@ class P4Bot(val side: Side.Side) extends Player {
     if (board.columns(index).size == 6) return -1
 
     val nextColumns = board.play(board.player, index).columns
-    val column = nextColumns(index)
+    
+    val playedColumn = nextColumns(index) 
+    val height = playedColumn.size - 1
+    val neighbourColumns = if (index > 3) nextColumns.drop(index - 3) else nextColumns.dropRight(playedColumn.size - 1 - index - 3)
 
-    val you = other(board.player)
-    val columnScore = column.reverse match {
-      case (board.player :: board.player :: board.player :: board.player :: _) => 6
-      case (column) if column.size > 6 => -1
-      case (_) => 0
-    }
+    val columnScore = score(playedColumn map { (Some(_)) } padTo(6, Some()),board.player)
 
-    val height = column.size - 1
-    val neighbourColumns = if (index > 3) nextColumns.drop(index - 3) else nextColumns.dropRight(column.size - 1 - index - 3)
     val rawLine = neighbourColumns map { column => if (column.size > height) Some(column(height)) else Some() }
-
-    val rawScore = if (rawLine.containsSlice(List.fill(4)(Some(board.player)))) 6 else 0
+    val rawScore = score(rawLine,board.player)
 
     return columnScore + rawScore
   }
 
   def newMessage(message: String) {
     println("Bot received " + message)
+  }
+  
+  private def score(columnLine: List[Some[Any]], side: gameboard.Side.Side): Int = {
+    if (columnLine.containsSlice(List.fill(4)(Some(side)))) 6 else 
+      if (columnLine.containsSlice(List.fill(3)(Some(side)))) 4 else 0
   }
 }
