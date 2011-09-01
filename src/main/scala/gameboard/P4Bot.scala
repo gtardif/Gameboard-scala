@@ -44,7 +44,15 @@ class P4Bot(val side: Side.Side) extends Player {
     val rawLine = neighbourColumns map { column => if (column.size > height) Some(column(height)) else Some() }
     val rawScore = score(rawLine,board.player)
 
-    return columnScore + rawScore
+    val diag1Line = (neighbourColumns zipWithIndex) map { columnWithIndex => 
+      val (column, colIndex) = columnWithIndex 
+      val wantedHeight = height - (index - colIndex)
+      println("wanted " + colIndex + " height " + wantedHeight )
+        if (column.size > wantedHeight && wantedHeight >= 0) Some(column(wantedHeight)) else Some() 
+    }
+    val diag1Score = score(diag1Line,board.player)
+
+    return columnScore + rawScore + diag1Score
   }
 
   def newMessage(message: String) {
@@ -52,7 +60,7 @@ class P4Bot(val side: Side.Side) extends Player {
   }
   
   private def score(columnLine: List[Some[Any]], side: gameboard.Side.Side): Int = {
-    if (columnLine.containsSlice(List.fill(4)(Some(side)))) 10 else 
-      if (columnLine.containsSlice(List.fill(3)(Some(side)))) 4 else 0
+    if (columnLine.containsSlice(List.fill(4)(Some(side)))) 100 else 
+      if (columnLine.containsSlice(List.fill(3)(Some(side)))) 10 else 0
   }
 }
