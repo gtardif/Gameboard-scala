@@ -37,10 +37,10 @@ class P4BoardTest extends SpecificationWithJUnit with Mockito {
       board2.columns must_== List(List(), List(), List(), List(RED, YELLOW), List(), List(), List())
     }
 
-    "refuse moves in column > 7" in {
+    "refuse moves in column > 6" in {
       val board = new P4Board(emptyColumns, RED)
 
-      board.play(RED, 8) must throwA[IllegalArgumentException]
+      board.play(RED, 7) must throwA[IllegalArgumentException]
     }
 
     "refuse moves in columns already full" in {
