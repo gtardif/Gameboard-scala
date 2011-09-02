@@ -37,24 +37,24 @@ class P4Bot(val side: Side.Side) extends Player {
 
     val playedColumn = nextColumns(index)
     val height = playedColumn.size - 1
+
+    val columnScore = score(playedColumn map { (Some(_)) } padTo (6, None), board.player)
+
     val neighbourColumns = if (index > 3) nextColumns.drop(index - 3) else nextColumns.dropRight(playedColumn.size - 1 - index - 3)
-
-    val columnScore = score(playedColumn map { (Some(_)) } padTo (6, Some()), board.player)
-
-    val rawLine = neighbourColumns map { column => if (column.size > height) Some(column(height)) else Some() }
+    val rawLine = neighbourColumns map { column => if (column.size > height) Some(column(height)) else None }
     val rawScore = score(rawLine, board.player)
 
     val diag1Line = (neighbourColumns zipWithIndex) map { columnWithIndex =>
       val (column, colIndex) = columnWithIndex
       val wantedHeight = height - (index - colIndex)
-      if (column.size > wantedHeight && wantedHeight >= 0) Some(column(wantedHeight)) else Some()
+      if (column.size > wantedHeight && wantedHeight >= 0) Some(column(wantedHeight)) else None
     }
     val diag1Score = score(diag1Line, board.player)
 
     val diag2Line = (neighbourColumns zipWithIndex) map { columnWithIndex =>
       val (column, colIndex) = columnWithIndex
       val wantedHeight = height + (index - colIndex)
-      if (column.size > wantedHeight && wantedHeight >= 0) Some(column(wantedHeight)) else Some()
+      if (column.size > wantedHeight && wantedHeight >= 0) Some(column(wantedHeight)) else None
     }
     val diag2Score = score(diag2Line, board.player)
     
@@ -65,7 +65,7 @@ class P4Bot(val side: Side.Side) extends Player {
     println("Bot received " + message)
   }
 
-  private def score(columnLine: List[Some[Any]], side: gameboard.Side.Side): Int = {
+  private def score(columnLine: List[Option[Side]], side: gameboard.Side.Side) = {
     if (columnLine.containsSlice(List.fill(4)(Some(side)))) 100 else if (columnLine.containsSlice(List.fill(3)(Some(side)))) 10 else 0
   }
 }

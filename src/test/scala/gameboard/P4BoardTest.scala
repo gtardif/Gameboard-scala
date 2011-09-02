@@ -44,11 +44,57 @@ class P4BoardTest extends SpecificationWithJUnit with Mockito {
     }
 
     "refuse moves in columns already full" in {
-      val columns = List(List(), List(), List(), List.fill(6)(RED), List(), List(), List())
-
-      val board = new P4Board(columns, RED)
+      val board = new P4Board(List(List(), List(), List(), List.fill(6)(RED), List(), List(), List()), RED)
 
       board.play(RED, 3) must throwA[IllegalArgumentException]
+    }
+
+    "detect when player wins on columns" in {
+      val board = new P4Board(List(List(), List(), List(YELLOW), List.fill(4)(RED), List(YELLOW), List(YELLOW), List()), RED)
+
+      board.gameEnded must_== true
+      board.winner must_== Some(RED)
+
+      val board2 = new P4Board(List(List(), List(), List(YELLOW), List.fill(3)(RED):+ YELLOW, List(YELLOW), List(YELLOW), List()), RED)
+
+      board2.gameEnded must_== false
+      board2.winner must_== None
+    }
+
+    "detect when player wins on rows" in {
+      val board = new P4Board(List(List(), List(), List(YELLOW), List(YELLOW), List(YELLOW), List(YELLOW), List()), RED)
+
+      board.gameEnded must_== true
+      board.winner must_== Some(YELLOW)
+
+      val board2 = new P4Board(List(List(), List(), List(YELLOW), List(RED), List(YELLOW), List(YELLOW), List()), RED)
+
+      board2.gameEnded must_== false
+      board2.winner must_== None
+    }
+
+    "detect when player wins on Diagonal1" in {
+      val board = new P4Board(List(List(), List(RED), List(YELLOW, RED), List(YELLOW, RED, RED), List(RED, YELLOW, YELLOW, RED), List(), List()), RED)
+
+      board.gameEnded must_== true
+      board.winner must_== Some(RED)
+
+      val board2 = new P4Board(List(List(), List(RED), List(YELLOW, RED), List(YELLOW, RED, YELLOW), List(RED, YELLOW, YELLOW, RED), List(), List()), RED)
+
+      board2.gameEnded must_== false
+      board2.winner must_== None
+    }
+
+    "detect when player wins on Diagonal2" in {
+      val board = new P4Board(List(List(), List(RED, YELLOW, YELLOW, RED), List(YELLOW, RED, RED),List(YELLOW, RED),List(RED),   List(), List()), RED)
+
+      board.gameEnded must_== true
+      board.winner must_== Some(RED)
+
+      val board2 = new P4Board(List(List(), List(RED, YELLOW, YELLOW, YELLOW), List(YELLOW, RED, RED),List(YELLOW, RED),List(RED),   List(), List()), RED)
+
+      board2.gameEnded must_== false
+      board2.winner must_== None
     }
   }
 }

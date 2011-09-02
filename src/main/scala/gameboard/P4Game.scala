@@ -23,6 +23,11 @@ class P4Game(val players: List[Player]) extends Actor {
         try {
           board = board.play(player.side, column)
           players.foreach(_ ! (board, this))
+          if (board.gameEnded ) {
+            if (board.winner.isEmpty) players.foreach(_ ! "End of Game ; no winner")
+            else players.foreach(_ ! ("winner is " + board.winner.get))
+          }
+
         } catch {
           case e: IllegalArgumentException => player!e.getMessage()
         }
