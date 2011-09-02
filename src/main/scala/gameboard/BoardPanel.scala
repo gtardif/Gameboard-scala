@@ -9,12 +9,10 @@ import swing.event._
 class BoardPanel  (var board :P4Board, val player : HumanPlayer) extends Component {
   private val redPawn = ImageIO.read(new File("src/main/resources/steak.png"))      
   private val yellowPawn = ImageIO.read(new File("src/main/resources/peach.png"))      
-  private val boardImage = ImageIO.read(new File("src/main/resources/concert-prince.png"))
   
   private var game : P4Game = null
   
   override def paintComponent(g:Graphics2D) = { 
-    g.drawImage(boardImage, 0, 0, null) 
     (board.columns zipWithIndex) foreach(paintColumn(g, _))
   } 
   
@@ -35,7 +33,7 @@ class BoardPanel  (var board :P4Board, val player : HumanPlayer) extends Compone
     this.repaint()
   }
   
-  override def preferredSize = { new Dimension(boardImage.getWidth(), boardImage.getHeight()) }
+  override def preferredSize = { new Dimension(redPawn.getWidth() * 7, redPawn.getHeight()*7) }
   
   reactions += {
     case MouseClicked(source, point, modifiers, clicks, triggersPopup) => {
