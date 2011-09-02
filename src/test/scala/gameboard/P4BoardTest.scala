@@ -96,5 +96,13 @@ class P4BoardTest extends SpecificationWithJUnit with Mockito {
       board2.gameEnded must_== false
       board2.winner must_== None
     }
+    
+    "refuse move when game is ended" in {
+      val full: Side =>List[Side]= List.fill(6)(_)
+      val board = new P4Board(List(full(RED), full(YELLOW), full(RED), full(YELLOW), full(RED), full(YELLOW), full(RED)), RED)
+
+      board.gameEnded must throwA[IllegalArgumentException]
+    }
+
   }
 }

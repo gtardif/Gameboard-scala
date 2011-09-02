@@ -44,6 +44,7 @@ class P4Board(val columns: List[List[Side]], val player: Side) {
   }
 
   def play(side: Side, columnIndex: Int): P4Board = {
+    require(!gameEnded, "Game is finished, you can't play")
     require(side == player, "It is not your turn to play," + side)
     require(columnIndex <= 6, "impossible to play column " + columnIndex)
     require(columns(columnIndex).size < 6, "impossible to add pawn in column " + columnIndex)

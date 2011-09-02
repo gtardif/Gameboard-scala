@@ -4,7 +4,7 @@ import Side._
 
 class P4Bot(val side: Side.Side) extends Player {
   def updateBoard(board: P4Board, game: P4Game) {
-    if (board.player != side) {
+    if (board.gameEnded || board.player != side) {
       return
     }
 
