@@ -1,12 +1,19 @@
 package bootstrap.liftweb
-import net.liftweb.sitemap.SiteMap
-import net.liftweb.sitemap.Menu
-import net.liftweb.http.LiftRules
+
+import net.liftweb.sitemap._
+import net.liftweb.http._
 
 class Boot {
   def boot {
     LiftRules.addToPackages("test")
-    def sitemap(): SiteMap = SiteMap(Menu.i("Home") / "index")
-    LiftRules.setSiteMapFunc(() => sitemap())
+
+    val entries = List(
+      Menu.i("Home") / "index",
+      Menu.i("New Game") / "newGame")
+
+    LiftRules.setSiteMap(SiteMap(entries: _*))
+
+    LiftRules.htmlProperties.default.set((r: Req) =>
+      new Html5Properties(r.userAgent))
   }
 }
