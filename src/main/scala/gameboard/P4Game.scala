@@ -4,6 +4,7 @@ import scala.actors.Actor
 class P4Game(val players: List[Player]) extends Actor {
   require(players.size == 2, "There must be 2 players")
   var board = P4Board.newGame((players(0)).side)
+  var moves : List[(Int, Side.Side)] = List()
 
   override def start() = {
     super.start()
@@ -22,6 +23,7 @@ class P4Game(val players: List[Player]) extends Actor {
       case (column: Int, player: Player) => {
         try {
           board = board.play(player.side, column)
+          moves :+= (column, player.side)
           players.foreach(_ ! (board, this))
           if (board.gameEnded ) {
             if (board.winner.isEmpty) players.foreach(_ ! "End of Game ; no winner")

@@ -5,11 +5,13 @@ import net.liftweb.http._
 
 class Boot {
   def boot {
-    LiftRules.addToPackages("test")
+    LiftRules.addToPackages("gameboard")
 
     val entries = List(
       Menu.i("Home") / "index",
-      Menu.i("New Game") / "newGame")
+      Menu.i("New Game") / "newGame", 
+      Menu.i("Blind Game") / "blindGame" 
+      )
 
     LiftRules.setSiteMap(SiteMap(entries: _*))
 
