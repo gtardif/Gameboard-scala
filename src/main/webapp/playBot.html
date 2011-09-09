@@ -1,0 +1,22 @@
+<html>
+<div id="main" class="lift:surround?with=scaffold;at=content">
+	<div class="lift:comet?type=PlayerView">
+		You are playing connect-4 game
+		<ul>
+			<li>Red starts playing</li>
+			<li class="clearable">red plays 4</li>
+			<li class="clearable">yellow plays 0</li>
+			<li class="clearable">red plays 3</li>
+		</ul>
+	</div>
+
+	<form class="lift:form.ajax">
+		<div class="lift:P4Snippets.ajaxForm">
+			<input id="gameId" value="0" /> 
+			<input type="submit" value="play column" /> 
+			<input id="column" type="text" />
+		</div>
+	</form>
+</div>
+</html>
+
