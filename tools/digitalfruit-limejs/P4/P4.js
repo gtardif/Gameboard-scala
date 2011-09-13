@@ -27,9 +27,8 @@ P4.start = function() {
 			background.appendChild(cell);
 			goog.events.listen(cell, [ 'mousedown', 'touchstart' ],
 					function(e) {
-						var column = (e.target.getPosition().x-25)/50
-						//alert('playing column ' + e.target.getPosition().toString());
-						play(column)
+						var column = (e.target.getPosition().x-25)/50;
+						play(column);
 					});
 		}
 	}
@@ -49,7 +48,7 @@ P4.addChip = function(column, player) {
 	columns[column] = height +1;
 	
 	var fallDown = new lime.animation.MoveTo(column * 50 + 25, 275 - height * 50)
-			.setDuration(3 - height * 0.5);
+			.setDuration(1.5 - height * 0.25);
 	newChip.runAction(fallDown);
 	
 };
