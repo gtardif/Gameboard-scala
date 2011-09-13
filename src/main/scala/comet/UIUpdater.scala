@@ -12,7 +12,7 @@ class UIUpdater extends CometActor with CometListener{
   def registerWith = GameServer.startGameServer
 
   override def lowPriority = {
-    case (column: Int, side : Side.Side)::_ => partialUpdate(Call("P4.addChip", column, 0, "red")) 
+    case (column: Int, side : Side.Side)::_ => partialUpdate(Call("P4.addChip", column, side.toString.toLowerCase)) 
     case (message:String) :: rest=>       partialUpdate(Alert( "" + message))
     case other => throw new RuntimeException("Could not update UI with " + other);
   }

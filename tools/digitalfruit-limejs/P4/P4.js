@@ -7,7 +7,7 @@ goog.require('lime.Circle');
 goog.require('lime.animation.MoveTo');
 goog.require('lime.RoundedRect');
 
-var director, scene, layer;
+var director, scene, layer, columns;
 
 P4.start = function() {
 	director = new lime.Director(document.body, 400, 600);
@@ -28,7 +28,7 @@ P4.start = function() {
 			goog.events.listen(cell, [ 'mousedown', 'touchstart' ],
 					function(e) {
 						//alert('playing column ' + e.target.getPosition().toString());
-						P4.addChip((e.target.getPosition().x-25)/50, 0, 'red');
+						P4.addChip((e.target.getPosition().x-25)/50, 'red');
 					});
 		}
 	}
@@ -36,17 +36,21 @@ P4.start = function() {
 	scene.appendChild(background);
 	scene.appendChild(layer);
 	director.replaceScene(scene);
-
+	columns = [0, 0, 0, 0, 0, 0, 0];
 };
 
-P4.addChip = function(column, height, player) {
-	var newChip = new lime.Circle().setSize(50, 50).setPosition(
-			25 + column * 50, 25).setFill(255, 0, 0);
+P4.addChip = function(column, player) {
+	var newChip = new lime.Circle().setSize(50, 50).setPosition(25 + column * 50, 25);
+	if (player == "red") newChip.setFill(255, 0, 0);
+	else newChip.setFill(255, 255, 0);
 	layer.appendChild(newChip);
-
+	var height = columns[column];
+	columns[column] = height +1;
+	
 	var fallDown = new lime.animation.MoveTo(column * 50 + 25, 275 - height * 50)
 			.setDuration(3 - height * 0.5);
 	newChip.runAction(fallDown);
+	
 };
 
 // this is required for outside access after code is compiled in
