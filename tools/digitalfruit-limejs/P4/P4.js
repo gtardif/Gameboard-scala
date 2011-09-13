@@ -27,8 +27,9 @@ P4.start = function() {
 			background.appendChild(cell);
 			goog.events.listen(cell, [ 'mousedown', 'touchstart' ],
 					function(e) {
+						var column = (e.target.getPosition().x-25)/50
 						//alert('playing column ' + e.target.getPosition().toString());
-						P4.addChip((e.target.getPosition().x-25)/50, 'red');
+						play(column)
 					});
 		}
 	}

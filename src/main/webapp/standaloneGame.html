@@ -1,9 +1,11 @@
 <html>
-	<script type="text/javascript" src="scripts/P4.js"></script>
-	<script type="text/javascript" src="/classpath/jquery.js"></script>
+<script type="text/javascript" src="scripts/P4.js"></script>
+<script type="text/javascript" src="/classpath/jquery.js"></script>
+<script>
+	play = function(column) {
+		$.ajax({url : "/P4/play/" + column});
+	}
+</script>
 
-
-		<div class="lift:comet?type=UIUpdater">
-		
-	</div>
+<div class="lift:comet?type=UIUpdater"></div>
 </html>

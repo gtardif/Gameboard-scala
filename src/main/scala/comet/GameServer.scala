@@ -15,7 +15,6 @@ class GameServer extends LiftActor with ListenerManager {
     val side = Side.RED
 
     override def updateBoard(board: P4Board, game: P4Game) {
-      println("new board for " + id)
       if (game.moves.isEmpty) return
       val lastMove = game.moves.last
       sendMove(lastMove)

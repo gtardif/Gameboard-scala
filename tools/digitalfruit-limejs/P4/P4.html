@@ -5,6 +5,11 @@
 	<title>P4</title>
 	<script type="text/javascript" src="../closure/closure/goog/base.js"></script>
 	<script type="text/javascript" src="P4.js"></script>
+	<script> 
+	play = function(column){
+		P4.addChip(column, 'red')	
+	}
+	</script>
 </head>
 
 <body onload="P4.start() ; P4.addChip(0, 'yellow')"></body>

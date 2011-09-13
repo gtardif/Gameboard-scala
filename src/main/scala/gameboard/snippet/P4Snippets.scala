@@ -18,7 +18,6 @@ object P4Snippets {
     val gameId = GameServer.lastCreated.id.toString()
 
     def process() {
-      println ("process " + column + ", " + gameId)
       game.play(column.toInt, game.players(0))
     }
 
