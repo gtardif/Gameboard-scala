@@ -24,4 +24,5 @@ object P4Snippets {
 
       "#column" #> (SHtml.text(column, column = _) ++ SHtml.hidden(process))
   }
+  
 }

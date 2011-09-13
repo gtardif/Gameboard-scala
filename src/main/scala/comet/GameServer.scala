@@ -6,7 +6,7 @@ import actor._
 import gameboard._
 
 class GameServer extends LiftActor with ListenerManager {
-  private var msgs = Vector("Red starts playing") // private state
+  private var msgs : List[AnyRef] = List("Red starts playing") // private state
   val id = GameServer.newId
   
   println("creating game " + id)
@@ -18,11 +18,11 @@ class GameServer extends LiftActor with ListenerManager {
       println("new board for " + id)
       if (game.moves.isEmpty) return
       val lastMove = game.moves.last
-      newMessage(lastMove._2.toString() + " plays " + lastMove._1)
+      sendMove(lastMove)
     }
 
     override def newMessage(message: String) {
-      displayMessage(message)
+      sendMessage(message)
     }
   }
 
@@ -37,19 +37,22 @@ class GameServer extends LiftActor with ListenerManager {
 
   def createUpdate = msgs
 
-  private def displayMessage(newMessage: java.lang.String): Unit = {
-      println("new update for " + id)
-    msgs :+= newMessage;
+  private def sendMessage(newMessage: java.lang.String): Unit = {
+    msgs = newMessage +: msgs;
+    updateListeners()
+  }
+
+  private def sendMove(move : (Int, Side.Side)): Unit = {
+    msgs  = move +: msgs;
     updateListeners()
   }
 }
 
 object GameServer {
-  var lastCreated : GameServer = null
+  var lastCreated : GameServer = new GameServer
   var id : Int= 0
   
   def startGameServer = {
-    lastCreated = new GameServer
     lastCreated
   }
   

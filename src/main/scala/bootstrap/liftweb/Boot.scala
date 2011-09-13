@@ -14,7 +14,7 @@ class Boot {
           Menu.i("Start 2 players game") / "start2Players",
           Menu.i("Join 2 players game") / "join2Players"
           ), 
-      Menu.i("Blind Game") / "blindGame" 
+      Menu.i("new P4") / "standaloneGame" 
       )
 
     LiftRules.setSiteMap(SiteMap(entries: _*))
