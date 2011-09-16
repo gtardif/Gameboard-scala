@@ -40,12 +40,12 @@ P4.start = function() {
 };
 
 P4.addChip = function(column, player) {
+	var height = columns[column];
+	columns[column] = height +1;
 	var newChip = new lime.Circle().setSize(50, 50).setPosition(25 + column * 50, 25);
 	if (player == "red") newChip.setFill(255, 0, 0);
 	else newChip.setFill(255, 255, 0);
 	layer.appendChild(newChip);
-	var height = columns[column];
-	columns[column] = height +1;
 	
 	var fallDown = new lime.animation.MoveTo(column * 50 + 25, 275 - height * 50)
 			.setDuration(1.5 - height * 0.25);
