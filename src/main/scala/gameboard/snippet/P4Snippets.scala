@@ -11,17 +11,15 @@ import scala.xml.NodeSeq
 import gameboard.comet.GameServer
 
 object P4Snippets {
-  def ajaxForm = {
-    var column = ""
-      
-    val game = GameServer.lastCreated.game
-    val gameId = GameServer.lastCreated.id.toString()
-
-    def process() {
-      game.play(column.toInt, game.players(0))
-    }
-
-      "#column" #> (SHtml.text(column, column = _) ++ SHtml.hidden(process))
-  }
+  def testComet = <lift:comet type="Tick" name={nameParam}/>
+  def blindGameComet = <lift:comet type="PlayerView" name={nameParam}/>
+  def gameComet = <lift:comet type="UIUpdater" name={nameParam}/>
   
+  def playScript = <script>
+		play = function(column) {{
+			$.ajax({{url : '/P4/play/{nameParam}/' + column}});
+		}}
+	</script>
+  
+  private def nameParam: String = S.param("name") openOr "default"
 }

@@ -9,7 +9,7 @@ import util._
 import gameboard.Side
 
 class UIUpdater extends CometActor with CometListener{
-  def registerWith = GameServer.startGameServer
+  def registerWith = GameServer.game(name openOr "default")
 
   override def lowPriority = {
     case (column: Int, side : Side.Side)::_ => partialUpdate(Call("P4.addChip", column, side.toString.toLowerCase)) 

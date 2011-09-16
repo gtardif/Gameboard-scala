@@ -4,13 +4,11 @@ import net.liftweb._
 import http._
 import actor._
 import gameboard._
+import scala.collection.mutable
 
-class GameServer extends LiftActor with ListenerManager {
-  private var msgs : List[AnyRef] = List("Red starts playing") // private state
-  val id = GameServer.newId
+class GameServer(name : String) extends LiftActor with ListenerManager {
+  private var msgs : List[AnyRef] = List("Red starts playing in game " + name) // private state
   
-  println("creating game " + id)
-
   class WebPlayer extends Player {
     val side = Side.RED
 
@@ -48,15 +46,15 @@ class GameServer extends LiftActor with ListenerManager {
 }
 
 object GameServer {
-  var lastCreated : GameServer = new GameServer
-  var id : Int= 0
+  var games : mutable.Map[String, GameServer] = mutable.Map()
   
-  def startGameServer = {
-    lastCreated
+  def game(name : String) : GameServer = {
+    games.get(name) getOrElse newGame(name)
   }
   
-  def lastCreatedGame = lastCreated
-  
-  def newId = { id += 1; id}
-  
+  private def newGame(name : String) = {
+    val newGame = new GameServer(name)
+    games.put(name, newGame)
+    newGame
+  }
 }
