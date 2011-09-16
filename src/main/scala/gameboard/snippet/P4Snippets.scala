@@ -11,7 +11,6 @@ import scala.xml.NodeSeq
 import gameboard.comet.GameServer
 
 object P4Snippets {
-  def testComet = <lift:comet type="Tick" name={nameParam}/>
   def blindGameComet = <lift:comet type="PlayerView" name={nameParam}/>
   def gameComet = <lift:comet type="UIUpdater" name={nameParam}/>
   
