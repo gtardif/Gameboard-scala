@@ -7,6 +7,8 @@ import Helpers._
 import gameboard.Side
 import net.liftweb.common.Box
 import scala.xml.NodeSeq
+import net.liftweb.common.Full
+import Helpers._
 
 class PlayerView extends CometActor with CometListener {
   private var msgs: List[String] = List() // private state
@@ -20,6 +22,8 @@ class PlayerView extends CometActor with CometListener {
       msgs = list.map(display(_)); reRender()
     }
   }
+
+  override def lifespan = Full(1 minutes)
 
   private def display(x: AnyRef): String = x match {
     case s: String => s

@@ -7,6 +7,8 @@ import JsCmds._
 import JE._
 import util._
 import gameboard.Side
+import net.liftweb.common._
+import Helpers._
 
 class UIUpdater extends CometActor with CometListener {
   def registerWith = gameServer
@@ -16,6 +18,8 @@ class UIUpdater extends CometActor with CometListener {
     case (message: String) :: rest => partialUpdate(Alert("" + message))
     case other => throw new RuntimeException("Could not update UI with " + other);
   }
+  
+  override def lifespan = Full(1 minutes)
 
   def render = {
     val moves = if (gameServer.game.moves isEmpty) List() else gameServer.game.moves.reverse.tail
