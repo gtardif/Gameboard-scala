@@ -6,6 +6,8 @@ scalaVersion := "2.9.0-1"
 
 seq(webSettings :_*)
 
+seq(bees.RunCloudPlugin.deploymentSettings :_*)
+
 libraryDependencies ++= Seq(
 	"org.scala-lang" % "scala-swing" % "2.9.0-1" withSources () ,
 	"org.scala-tools.testing" %% "specs" % "1.6.8" % "test" withSources (), 
