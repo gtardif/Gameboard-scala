@@ -24,7 +24,7 @@ class UIUpdater extends CometActor with CometListener {
   def render = {
     val moves = if (gameServer.game.moves isEmpty) List() else gameServer.game.moves.reverse.tail
     val jsInit: JsCmd = Call("P4.start")
-    new RenderOut(<div/>, ((jsInit /: moves.map(m => jsMove(m)))(_ & _)))
+    ((jsInit /: moves.map(m => jsMove(m)))(_ & _))
   }
 
   private def gameServer = GameServer.game(name openOr "default")
