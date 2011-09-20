@@ -6,7 +6,7 @@ import actor._
 import gameboard._
 import scala.collection.mutable
 
-class GameServer(name : String) extends LiftActor with ListenerManager {
+class GameServer(val name : String) extends LiftActor with ListenerManager {
   private var msgs : List[AnyRef] = List("Red starts playing in game " + name) // private state
   
   class WebPlayer extends Player {
@@ -45,8 +45,12 @@ class GameServer(name : String) extends LiftActor with ListenerManager {
   }
 }
 
-object GameServer {
+object GameServer extends LiftActor with ListenerManager {
   var games : mutable.Map[String, GameServer] = mutable.Map()
+  
+  def createUpdate = {
+    games.values
+  }
   
   def game(name : String) : GameServer = {
     games.get(name) getOrElse newGame(name)
@@ -55,6 +59,7 @@ object GameServer {
   private def newGame(name : String) = {
     val newGame = new GameServer(name)
     games.put(name, newGame)
+    updateListeners()
     newGame
   }
 }

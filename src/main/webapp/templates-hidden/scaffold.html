@@ -92,7 +92,7 @@
 </head>
 <body>
 	<div class="container">
-		<div class="column span-10">Gameboard</div>
+		<div class="column span-10"> <h1>Gameboard</h1>		</div>
 
 		<div class="column span-1 last" style="float: right">
 			<img alt="" id="ajax-loader" style="display: none"
@@ -100,8 +100,16 @@
 		</div>
 		<hr>
 		<div class="column span-6 colborder sidebar">
-			<lift:menu.builder />
+			<lift:menu.builder></lift:menu.builder>
 			<hr class="space">
+			<div class="widget">
+				<div class="lift:comet?type=GameList" style="text-align: center">
+					<ul>
+					Available Games
+					<li align="left">P4 : myGame</li>
+					</ul>
+				</div>
+			</div>
 		</div>
 
 		<div class="column span-17 last">
