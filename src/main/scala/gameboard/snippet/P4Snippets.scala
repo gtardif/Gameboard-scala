@@ -15,7 +15,7 @@ object P4Snippets {
   def gameComet = <lift:comet type="UIUpdater" name={nameParam}/>
   
   def playScript = <script>
-		var mySide = 'RED';
+		var mySide = 'None';
 		var myGame = '{nameParam}';
 		
 		play = function(column) {{
