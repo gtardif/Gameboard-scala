@@ -22,7 +22,7 @@ class UIUpdater extends CometActor with CometListener {
   override def lowPriority = {
     case (move: (Int, Side.Side)) :: _ => partialUpdate(jsMove(move))
     case (message: String) :: rest => {
-      if (message contains "joined the game") partialUpdate(startGame)
+      if (message contains "joined the game") partialUpdate(Alert("" + message) & startGame) //TODO improve design...
       else partialUpdate(Alert("" + message))
     }
     case other => println("Could not update UI with " + other);
