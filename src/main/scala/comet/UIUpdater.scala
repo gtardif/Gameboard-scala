@@ -9,10 +9,12 @@ import util._
 import gameboard.Side
 import net.liftweb.common._
 import Helpers._
+import gameboard.P4Bot
 
 class UIUpdater extends CometActor with CometListener {
-  private var player : WebPlayer = null
-  
+  private var player: WebPlayer = null
+  private var botGame: GameServer = null
+
   def registerWith = {
     player = gameServer.join()
     println("register " + player.side)
@@ -36,7 +38,15 @@ class UIUpdater extends CometActor with CometListener {
     else startGame
   }
 
-  private def gameServer = GameServer.game(name openOr "default")
+  private def gameServer: GameServer = {
+    if (name == Full("default")) {
+      if (botGame == null) {
+        botGame = GameServer.newGame("default")
+        botGame.join(side => new P4Bot(side))
+      }
+      botGame
+    } else GameServer.game(name openTheBox)
+  }
   private def jsMove(m: (Int, Side.Side)) = Call("P4.addChip", m._1, m._2.toString.toLowerCase)
 
   private def startGame: JsCmd = {
