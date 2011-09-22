@@ -12,9 +12,9 @@ import Helpers._
 
 class PlayerView extends CometActor with CometListener {
   private var msgs: List[String] = List() // private state
-
   def registerWith = {
-    GameServer.game(name openOr "default")
+	val player = GameServer.game(name openOr "default").join()
+    player.updater
   }
 
   override def lowPriority = {

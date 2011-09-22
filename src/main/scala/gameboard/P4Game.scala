@@ -10,6 +10,7 @@ class P4Game(val players: List[Player]) extends Actor {
     super.start()
     players.foreach(_.start())
     players.foreach(_ ! (board, this))
+    players.foreach(_ ! "Game started ; RED starts playing")
     this
   }
   
@@ -38,11 +39,4 @@ class P4Game(val players: List[Player]) extends Actor {
     }
   }
 
-}
-object P4Game extends Application {
-  val player1 = new HumanPlayer(Side.RED)
-  val player2 = new P4Bot(Side.YELLOW)
-  val game = new P4Game(List(player1, player2))
-
-  game.start()
 }

@@ -15,9 +15,26 @@ object P4Snippets {
   def gameComet = <lift:comet type="UIUpdater" name={nameParam}/>
   
   def playScript = <script>
+		var mySide = 'RED';
+		var myGame = '{nameParam}';
+		
 		play = function(column) {{
-			$.ajax({{url : '/P4/play/{nameParam}/' + column}});
+			$.ajax({{url : '/P4/play/' + myGame + '/' + mySide + '/' + column}});
 		}}
+
+		newGame = function(name) {{
+			$.ajax({{url : '/P4/newGame/' + name}});
+		}}
+
+  		join = function(name) {{
+			$.ajax({{url : '/P4/join/' + name,
+  					success : setSide
+  			}});
+  		}}
+
+  		setSide = function(data) {{
+  			mySide = JSON.parse(data)
+  		}}
 	</script>
   
   private def nameParam: String = S.param("name") openOr "default"
