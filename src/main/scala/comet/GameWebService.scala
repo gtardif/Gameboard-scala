@@ -21,10 +21,5 @@ object GameWebService extends RestHelper {
       GameServer.newGame(gameName)
       OkResponse()
     }
-    
-    case "P4" :: "join" :: gameName :: _ JsonGet _ => {
-      val side = GameServer.game(gameName).join()
-      JString(side.toString())
-    }
   }
 }

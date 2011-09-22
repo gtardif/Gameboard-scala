@@ -25,16 +25,6 @@ object P4Snippets {
 		newGame = function(name) {{
 			$.ajax({{url : '/P4/newGame/' + name}});
 		}}
-
-  		join = function(name) {{
-			$.ajax({{url : '/P4/join/' + name,
-  					success : setSide
-  			}});
-  		}}
-
-  		setSide = function(data) {{
-  			mySide = JSON.parse(data)
-  		}}
 	</script>
   
   private def nameParam: String = S.param("name") openOr "default"
