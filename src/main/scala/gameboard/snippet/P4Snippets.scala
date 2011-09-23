@@ -8,7 +8,7 @@ import JsCmds._
 import JE._
 import scala.xml.NodeSeq
 
-import gameboard.comet.GameServer
+import gameboard.comet.LiftCometGameServer
 
 object P4Snippets {
   def blindGameComet = <lift:comet type="PlayerView" name={nameParam}/>

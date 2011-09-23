@@ -9,14 +9,14 @@ import util._
 import gameboard.Side
 import net.liftweb.common._
 import Helpers._
-import gameboard.P4Bot
+import gameboard._
 
 class UIUpdater extends CometActor with CometListener {
   private var player: WebPlayer = null
-  private var botGame: GameServer = null
+  private var botGame: GameStarter = null
 
   def registerWith = {
-    player = gameServer.join()
+    player = game.join(new WebPlayer(_))
     println("register " + player.side)
     player.updater
   }
@@ -34,24 +34,24 @@ class UIUpdater extends CometActor with CometListener {
 
   def render: RenderOut = {
     println("render " + player.side)
-    if (!gameServer.started) return <p>Waiting for another player to join the game...</p>
+    if (!game.started) return <p>Waiting for another player to join the game...</p>
     else startGame
   }
 
-  private def gameServer: GameServer = {
+  private def game: GameStarter = {
     if (name == Full("default")) {
       if (botGame == null) {
-        botGame = GameServer.newGame("default")
+        botGame = LiftCometGameServer.newGame("default")
         botGame.join(side => new P4Bot(side))
       }
       botGame
-    } else GameServer.game(name openTheBox)
+    } else LiftCometGameServer.game(name openTheBox)
   }
   private def jsMove(m: (Int, Side.Side)) = Call("P4.addChip", m._1, m._2.toString.toLowerCase)
 
   private def startGame: JsCmd = {
     println("start game for player " + player.side)
-    val moves = if (gameServer.game.moves isEmpty) List() else gameServer.game.moves.reverse.tail
+    val moves = if (game.game.moves isEmpty) List() else game.game.moves.reverse.tail
     val jsInit: JsCmd = SetExp(JsVar("mySide"), player.side.toString) & Call("P4.start")
     ((jsInit /: moves.map(m => jsMove(m)))(_ & _))
   }

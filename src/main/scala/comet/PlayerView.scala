@@ -13,7 +13,7 @@ import Helpers._
 class PlayerView extends CometActor with CometListener {
   private var msgs: List[String] = List() // private state
   def registerWith = {
-	val player = GameServer.game(name openOr "default").join()
+	val player = LiftCometGameServer.game(name openOr "default").join(new WebPlayer(_))
     player.updater
   }
 
