@@ -1,5 +1,6 @@
 package gameboard
 import scala.actors.Actor
+import gameboard.lift.comet.LiftCometGameServer
 
 class P4Game(val name: String) extends Actor {
   var players = List[Player]()
@@ -25,6 +26,7 @@ class P4Game(val name: String) extends Actor {
   }
 
   def started = players.length == 2
+  def ended = board.gameEnded
 
   override def start() = {
     super.start()
@@ -48,6 +50,7 @@ class P4Game(val name: String) extends Actor {
           if (board.gameEnded) {
             if (board.winner.isEmpty) players.foreach(_ ! "End of Game ; no winner")
             else players.foreach(_ ! ("winner is " + board.winner.get))
+            LiftCometGameServer.gameEnded(this)
           }
 
         } catch {

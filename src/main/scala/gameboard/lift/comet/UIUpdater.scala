@@ -33,19 +33,20 @@ class UIUpdater extends CometActor with CometListener {
   override def lifespan = Full(1 minutes)
 
   def render: RenderOut = {
-    println("render " + player.side)
+    if (name == Full("default") && !game.started) {
+      localSetup() // re-register
+    }
     if (!game.started) return <p>Waiting for another player to join the game...</p>
     else startGame
   }
 
   private def game: P4Game = {
-    if (name == Full("default")) {
-      if (botGame == null) {
-        botGame = LiftCometGameServer.newGame("default")
-        botGame.join(side => new P4Bot(side))
-      }
-      botGame
-    } else LiftCometGameServer.game(name openTheBox)
+    if (name == Full("default") && !LiftCometGameServer.games.contains("default")) {
+      println("create bot game")
+      botGame = LiftCometGameServer.newGame("default")
+      botGame.join(side => new P4Bot(side))
+    }
+    LiftCometGameServer.games(name openTheBox)
   }
   private def jsMove(m: (Int, Side.Side)) = Call("P4.addChip", m._1, m._2.toString.toLowerCase)
 
