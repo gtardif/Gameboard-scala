@@ -1,4 +1,4 @@
-package gameboard.snippet
+package gameboard.lift.snippet
 
 import scala.xml.NodeSeq
 import net.liftweb.util.Helpers._

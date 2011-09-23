@@ -1,4 +1,4 @@
-package gameboard.comet
+package gameboard.lift.comet
 
 import net.liftweb._
 import http._
@@ -13,7 +13,7 @@ import gameboard._
 
 class UIUpdater extends CometActor with CometListener {
   private var player: WebPlayer = null
-  private var botGame: GameStarter = null
+  private var botGame: P4Game = null
 
   def registerWith = {
     player = game.join(new WebPlayer(_))
@@ -38,7 +38,7 @@ class UIUpdater extends CometActor with CometListener {
     else startGame
   }
 
-  private def game: GameStarter = {
+  private def game: P4Game = {
     if (name == Full("default")) {
       if (botGame == null) {
         botGame = LiftCometGameServer.newGame("default")
@@ -51,7 +51,7 @@ class UIUpdater extends CometActor with CometListener {
 
   private def startGame: JsCmd = {
     println("start game for player " + player.side)
-    val moves = if (game.game.moves isEmpty) List() else game.game.moves.reverse.tail
+    val moves = if (game.moves isEmpty) List() else game.moves.reverse.tail
     val jsInit: JsCmd = SetExp(JsVar("mySide"), player.side.toString) & Call("P4.start")
     ((jsInit /: moves.map(m => jsMove(m)))(_ & _))
   }

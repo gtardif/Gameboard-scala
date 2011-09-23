@@ -1,4 +1,4 @@
-package gameboard.comet
+package gameboard.lift.comet
 
 import net.liftweb._
 import http._

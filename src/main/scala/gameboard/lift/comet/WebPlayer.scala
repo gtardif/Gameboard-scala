@@ -1,4 +1,4 @@
-package gameboard.comet
+package gameboard.lift.comet
 
 import gameboard._
 import net.liftweb.http.ListenerManager

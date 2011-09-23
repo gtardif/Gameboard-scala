@@ -1,4 +1,4 @@
-package gameboard.comet
+package gameboard.lift.comet
 
 import net.liftweb._
 import http._
@@ -11,13 +11,13 @@ import net.liftweb.http.js.JsCmds.Alert
 import gameboard._
 
 class GameList extends CometActor with CometListener {
-  var games: Iterable[GameStarter] = List()
+  var games: Iterable[P4Game] = List()
   
   def registerWith = LiftCometGameServer
   override def lifespan = Full(1 minutes)
 
   override def lowPriority = {
-    case newGames: Iterable[GameStarter] => games = newGames; reRender()
+    case newGames: Iterable[P4Game] => games = newGames; reRender()
   }
 
   def render = "li * " #>  games.map(game => <a href={"standaloneGame?name=" + game.name }>P4 : {game.name}</a>) &

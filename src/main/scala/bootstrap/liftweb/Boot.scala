@@ -2,11 +2,11 @@ package bootstrap.liftweb
 
 import net.liftweb.sitemap._
 import net.liftweb.http._
-import gameboard.comet.GameWebService
+import gameboard.lift.comet.GameWebService
 
 class Boot {
   def boot {
-    LiftRules.addToPackages("gameboard")
+    LiftRules.addToPackages("gameboard.lift")
 
     val entries = List(
       Menu.i("Home") / "index",
